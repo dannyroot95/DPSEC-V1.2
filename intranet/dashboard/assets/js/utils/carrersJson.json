@@ -1,0 +1,76 @@
+[
+    {
+        "id": "0",
+        "carrerName": "PROGRAMA ACADÉMICO DE DERECHO Y CIENCIAS POLÍTICAS"
+    },
+
+    {
+        "id": "1",
+        "carrerName": "DEPARTAMENTO ACDÉMICO DE DERECHO Y CIENCIAS POLÍTICAS"
+    },
+
+    {
+        "id": "2",
+        "carrerName": "DEPARTAMENTO ACADÉMICO DE CONTABILIDAD Y ADMINISTRACIÓN"
+    },
+
+    {
+        "id": "3",
+        "carrerName": "PROGRAMA ACADÉMICO DE INICIAL Y ESPECIALIDAD"
+    },
+
+    {
+        "id": "4",
+        "carrerName": "PROGRAMA ACADÉMICO DE PRIMARIA E INFORMÁTICA"
+    },
+
+    {
+        "id": "5",
+        "carrerName": "PROGRAMA ACADÉMICO DE MATEMÁTICA Y COMPUTACIÓN"
+    },
+
+    {
+        "id": "6",
+        "carrerName": "PROGRAMA ACADÉMICO DE ENFERMERÍA"
+    },
+
+    {
+        "id": "7",
+        "carrerName": "DEPARTAMENTO ACADÉMICO DE ECOTURISMO"
+    },
+
+    {
+        "id": "8",
+        "carrerName": "DEPARTAMENTO ACADÉMICO DE INGENIERÍA FORESTAL Y MEDIO AMBIENTE"
+    },
+
+    {
+        "id": "9",
+        "carrerName": "DEPARTAMENTO ACADÉMICO DE INGENIERÍA DE SISTEMAS E INFORMÁTICA"
+    },
+
+    {
+        "id": "10",
+        "carrerName": "DEPARTAMENTO ACADÉMICO DE INGENIERÍA AGROINDUSTRIAL"
+    },
+
+    {
+        "id": "11",
+        "carrerName": "DEPARTAMENTO ACADÉMICO DE MEDICINA VETERINARIA - ZOOTECNIA"
+    },
+    
+    {
+        "id": "12",
+        "carrerName": "DEPARTAMENTO ACADÉMICO DE CIENCIAS BÁSICAS"
+    },
+
+    {
+        "id": "13",
+        "carrerName": "DEPARTAMENTO ACADÉMICO DE EDUCACIÓN Y HUMANIDADES"
+    },
+
+    {
+        "id": "14",
+        "carrerName": "DEPARTAMENTO ACADÉMICO DE ENFERMERIA"
+    }
+]

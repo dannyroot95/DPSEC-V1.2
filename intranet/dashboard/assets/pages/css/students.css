@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+:root{
+    --nav-width: 92px;
+  
+    /*===== Colores =====*/
+    --first-color: #c5236f;
+    --bg-color: #f4f4f4;
+    --sub-color: #f4f4f4;
+    --white-color: #FFF;
+    
+    /*===== Fuente y tipografia =====*/
+    --body-font: 'Poppins', sans-serif;
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+    
+    /*===== z index =====*/
+    --z-fixed: 100;
+  }
+
+  /*===== BASE =====*/
+*,::before,::after{
+    box-sizing: border-box;
+  }
+  label, .dataTables_info{
+    color: rgb(103, 103, 103);
+  }
+  .form-select-sm{
+    color: rgb(103, 103, 103) !important;
+  }
+  .form-control{
+    color: rgb(103, 103, 103) !important;
+  }
+  body{
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s;
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+  }
+  h1{
+    margin: 0;
+  }
+  ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  a{
+    text-decoration: none;
+  }
+
+.logo{
+  width: 512px;
+  height: 512px;
+}
+
+
+.example-open .modal-backdrop {
+  background-color:rgb(255, 255, 255);
+  }
+
+
+  td,tr{
+    font-size: 14px;
+  }
+
+  .btn-round{
+
+    background-color: #c5236f;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+
+  }
+  
+  button:active {
+    box-shadow: none;
+    background-color: black;
+  }
+
+  h4{
+    color: #c5236f;
+  }
+  .table-responsive {
+    width: 100%;
+   height: auto;
+  }
+  
+  .table {
+    width: 100%;
+  }
+
+  .table thead {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background: var(--first-color);
+
+  }
+  
+  .table td {
+    color: rgb(103, 103, 103);
+    font-size: 11px;
+    vertical-align: middle;
+    text-align: center;
+    border: none;
+   
+  }
+  .page-item.active .page-link{
+    background: var(--first-color) !important;
+    border: none;
+  }
+  
+  .table-responsive .pagination li {
+    border-radius: 6px;
+    margin-left: 5px;
+    outline: none;
+  }
+  
+  .table-responsive .pagination li a {
+    color: rgb(103, 103, 103);
+    border-radius: 6px;
+
+  }
+ 
+  .loader {
+    border: 12px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 12px solid #c5236f;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .modal .modal-content{
+
+    height: 80vh;
+
+  }
+  .modal .modal-body{
+ 
+    overflow-y: auto;
+  }
+
+  .modal{
+
+    pointer-events: none;
+
+  }

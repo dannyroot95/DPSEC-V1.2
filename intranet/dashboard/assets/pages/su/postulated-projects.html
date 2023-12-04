@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Proyectos Postulados</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/announcement.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="../../js/utils/datetime.js"></script>
+    <script src="/intranet/dashboard/assets/js/utils/tableJS/jspdf.min.js"></script>
+    <script src="/intranet/dashboard/assets/js/utils/tableJS/jspdf.plugin.autotable.min.js"></script>
+    
+    <script src="../../../../js/app.js"></script>
+    <script src="../../../../js/auth.js"></script>
+    <script src="../../../../js/firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"  
+     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+     
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" 
+     integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
+     <!-- range date-->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
+
+    <!------->
+
+<!--datatable!-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+
+     <style>
+
+      .swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+        background: rgba(250, 250, 250, 0.24);
+      }
+      
+      .swal2-popup {
+        background: #c5236f;
+        color: #f1f1f1;
+      }
+      
+      .swal2-styled.swal2-confirm {
+          background-color: #ffffff;
+          color: #000;
+      }
+      
+      .swal2-icon.swal2-warning {
+          border-color: #fff7f0;
+          color: #ffffff;
+      }
+      
+      .swal2-icon.swal2-error {
+          border-color: #fff7f0;
+          color: #ffffff;
+      }
+      
+      .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+          background-color: #f0e5e5;
+      }
+      
+      .form-control:disabled, .form-control[readonly] {
+          background-color: #fafafa;
+          opacity: 1;
+      }
+
+      .modal-content {
+        background-color: #f4f4f4;
+        border-color: #c5236f9f;
+        border-width: 1px;
+      }
+
+      ion-icon {
+        color: white;
+     }
+     
+    .accordion-button:not(.collapsed) {
+       color: #FFF  !important;
+       background-color: #c5236f !important;
+      }
+
+.accordion-button:link, .accordion-button:visited, .accordion-button:hover, .accordion-button:active  {
+    background-color: #c5236f !important;
+    color:#FFF !important;
+    text-decoration: none !important;
+    border: hidden !important;
+    border-color: #c5236f !important;
+    box-shadow: 0px !important;
+}
+
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #c5236f !important;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem #c5236f !important;
+}
+
+.progress {
+    --bs-progress-bg: #c5236f;
+  }
+
+  .description{
+    margin-bottom: 12px;
+    display: none;
+  }
+      
+      </style>
+
+</head>
+<body>
+
+<div style="margin-top: 5px;">
+
+<h4><ion-icon style="color: rgb(83, 83, 83);" name="document-text-outline"></ion-icon>&nbsp;Proyectos Postulados<label style="width: 10%;"></label>
+
+</h4>
+</div>
+
+<div class="table-responsive">
+ 
+    <table class="table table-hover" id="tb-projects">
+        <thead>
+          <tr style="background-color: #c5236f;color: #f1f1f1;">
+            <th scope="col" style="width: 10px;">#</th>
+            <th scope="col" style="width: 100px;">Título de proyecto</th>
+            <th scope="col" style="width: 50px;">Semestre</th>
+            <th scope="col" style="width: 50px;">Asesor</th>
+            <th scope="col" style="width: 50px;">Estado</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+      </table>
+      
+    </div>
+
+
+<div class="modal fade" id="postulateProjectModal" tabindex="-1" role="dialog" aria-labelledby="postulateModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="postulateModalLabel">Detalle de postulación</h1>
+        <button type="button" id="btn-close-modal-project" data-bs-toggle="modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div style="display:flex;justify-content: center;align-items: center;">
+          <label style="font-size: 16px;">Semestre :&nbsp;</label><label id="ps-semester" style="font-size: 16px;font-weight: bold;">2022-II</label>
+          <div style="margin-right: 2%;margin-left:2%"></div>
+          <label style="font-size: 16px;">Modalidad :&nbsp;</label><label id="ps-modality" style="font-size: 16px;font-weight: bold;">ESTUDIANTE</label>
+          <div style="margin-right: 2%;margin-left:2%"></div>
+          <label style="font-size: 16px;">¿Es Financiado? :&nbsp;</label><label id="ps-financed" style="font-size: 16px;font-weight: bold;"></label>
+          <div style="margin-right: 2%;margin-left:2%"></div>
+          <label style="font-size: 16px;">Monto :&nbsp;</label><label id="ps-amount" style="font-size: 16px;font-weight: bold;"></label>
+        </div>
+        <br>
+
+        <div>
+          <label style="color: #2346c5;">Asesor : </label>
+          <label id="ps-adviser" style="font-size: 14px;color:black;font-weight: 500;font-size: 16px;text-transform: uppercase;"></label>
+        </div>
+        <p></p>
+
+      <div>
+        <span style="color: #2346c5;">Título del proyecto : </span>
+        <label id="ps-title" style="font-size: 14px;color:black;font-weight: 500;text-transform: uppercase;"></label>
+      </div>
+
+      <br>
+      <div class="input-group">
+        <span class="input-group-text">Resumen del proyecto</span>
+        <textarea class="form-control" disabled style="height: 100px;color:#000" maxlength="300" id="ps-resume" aria-label="rs-project"></textarea>
+      </div>
+      <br>
+
+      <div style="display: flex;justify-content: center;align-items: center;">
+      
+        <div>
+          <label style="color: #2346c5;font-weight: bold;">Facultad : </label>
+          <label id="ps-faculty" style="font-size: 14px;color:black;font-weight: 500;text-transform: uppercase;"></label>
+        </div>
+
+        <div style="margin-left: 25px;margin-right: 25px;"></div>
+
+        <div>
+          <label style="color: #2346c5;font-weight: bold;">Carrera : </label>
+          <label id="ps-carrer" style="font-size: 14px;color:black;font-weight: 500;text-transform: uppercase;"></label>
+        </div>
+
+      </div>
+
+    
+      <br>
+
+      <label style="color: #2346c5;font-size: 18px;">PARTICIPANTES</label><br>
+      <label style="font-weight: bold;color: #000;">Alumnos : </label>
+      <fieldset id="fieldsetSTD">
+        <table class="table table-hover" id="tbStd">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombres y apellidos</th>
+              <th scope="col">Código</th>
+              <th scope="col">DNI</th>
+            </tr>
+          </thead>
+          <tbody id="tdbody-tch-std">
+          </tbody>
+        </table>
+      </fieldset>
+      <br>
+
+      <label style="font-weight: bold;color: #000;">Docentes : </label>
+      <fieldset id="fieldsetTCH">
+        <table class="table table-hover" id="tbTch">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombres y apellidos</th>
+              <th scope="col">DNI</th>
+            </tr>
+          </thead>
+          <tbody id="tdbody-tch-tch"></tbody>
+        </table>
+      </fieldset>
+     
+
+      <div style="display: flex;justify-content: center;align-items: center;" id="docs-file">
+      </div>
+
+      <br>
+      <div class="input-group mb-3" id="div-acctions">
+        <label class="input-group-text" for="inputGroupSelect01" style="font-weight: bold;">ACCIONES</label>
+        <select class="form-select" id="inputGroupSelectAcction">
+          <option selected disabled>Seleccione una opción...</option>
+          <option value="1" style="color: #028400;font-weight: bold;">APROBAR PROYECTO</option>
+          <option value="2" style="color: #ff0000;font-weight: bold;">OBSERVAR PROYECTO</option>
+        </select>
+      </div>
+    
+      <div class="input-group mb-3" id="content-acction">
+      </div>
+      
+      </div>
+      <div class="modal-footer">
+        <div id="isUpload" style="display: none;">
+          <label style="font-weight: bold;color:#000">Guardando datos...</label> &nbsp; <div class="smallLoader"></div>
+      </div>
+        <div id="btn-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--OBSERVED -->
+
+
+<div class="modal fade" id="observedProjectModal" tabindex="-1" role="dialog" aria-labelledby="observedModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="observedProjectModalLabel">Observacion de proyecto para Aprobación</h5>
+        </button>
+      </div>
+      <div class="modal-body">
+       
+        <label class="container2">Título del proyecto
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+
+        <label class="container2">Escuela Profesional
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Datos del docente responsable
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Datos de ubicación del proyecto
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Datos personales o institucionales del respresentante de los beneficiarios del proyecto
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Descripcion del problema a abordar
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Objetivos del proyecto
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Meta posible a lograr
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Número de beneficiarios esperados
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Duración del proyecto
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Horario semanal de ejecución del proyecto
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Metodología empleada y actividades
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Descripción detallada de actividades
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Cronograma de actividades
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Justificación social y económica
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Justificación académica
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Equipos y/o materiales
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Presupuesto general
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+        <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <label class="container2">Financiamiento y cofinanciamiento
+          <input type="checkbox" name="checkbox" class="observedChk">
+          <span class="checkmark"></span>
+        </label>
+
+          <div class="input-group description">
+          <span class="input-group-text">Descripción</span>
+          <textarea class="form-control mytext" aria-label="With textarea"></textarea>
+        </div>
+
+        <p></p>
+
+      </div>
+      <div class="modal-footer" id="ob-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<center><div class="loader" style="display:none;" id="loader"></div></center>
+
+<div id="createDataTable">
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+</div>
+
+ <!-- ===== IONICONS ===== -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="../../js/dashboardConfig/config.js"></script>
+<script src="../../js/utils/customJsBootstrapPP.js"></script>
+<script src="/intranet/dashboard/assets/js/su/p-postulated.js"></script>
+<script>
+    $(document).ready(function(){
+  $("#year").datepicker({
+     format: "yyyy",
+     viewMode: "years", 
+     minViewMode: "years",
+     //autoclose:true
+  });   
+})
+</script>
+
+</body>
+</html>

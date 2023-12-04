@@ -1,0 +1,387 @@
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Convocatorias</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/announcement.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="../../js/utils/status.js"></script>
+    <script src="../../js/utils/datetime.js"></script>
+    
+    <script src="../../../../js/app.js"></script>
+    <script src="../../../../js/auth.js"></script>
+    <script src="../../../../js/firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"  
+     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+     
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" 
+     integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+     <!-- range date-->
+    <script src="https://cdn.jsdelivr.net/npm/@easepick/datetime@1.2.0/dist/index.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@easepick/core@1.2.0/dist/index.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@easepick/base-plugin@1.2.0/dist/index.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@easepick/range-plugin@1.2.0/dist/index.umd.min.js"></script>
+    <!------->
+
+
+<!--datatable!-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+     <style>
+
+      .swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+        background: rgba(250, 250, 250, 0.24);
+      }
+      
+      .swal2-popup {
+        background: #c5236f;
+        color: #f1f1f1;
+      }
+      
+      .swal2-styled.swal2-confirm {
+          background-color: #ffffff;
+          color: #000;
+      }
+      
+      .swal2-icon.swal2-warning {
+          border-color: #fff7f0;
+          color: #ffffff;
+      }
+      
+      .swal2-icon.swal2-error {
+          border-color: #fff7f0;
+          color: #ffffff;
+      }
+      
+      .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+          background-color: #f0e5e5;
+      }
+      
+      .form-control:disabled, .form-control[readonly] {
+          background-color: #fafafa;
+          opacity: 1;
+      }
+
+      .modal-content {
+        background-color: #f4f4f4;
+        border-color: #c5236f9f;
+        border-width: 1px;
+      }
+
+      ion-icon {
+        color: white;
+     }
+     
+    .accordion-button:not(.collapsed) {
+       color: #FFF  !important;
+       background-color: #c5236f !important;
+      }
+
+.accordion-button:link, .accordion-button:visited, .accordion-button:hover, .accordion-button:active  {
+    background-color: #c5236f !important;
+    color:#FFF !important;
+    text-decoration: none !important;
+    border: hidden !important;
+    border-color: #c5236f !important;
+    box-shadow: 0px !important;
+}
+
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #c5236f !important;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem #c5236f !important;
+}
+
+.progress {
+    --bs-progress-bg: #c5236f;
+  }
+      
+  .btn-std:hover{
+
+    background-color: #e0e0e0;
+
+  }
+
+  .btn-std:focus{
+  background-color: #e0e0e0;
+  }
+      </style>
+
+</head>
+<body>
+
+<div style="margin-top: 5px;">
+
+<h4>Convocatorias</h4>
+</div>
+
+<div class="table-responsive">
+ 
+  <table class="table table-hover" id="tb-announcements">
+      <thead>
+        <tr style="background-color: #c5236f;color: #f1f1f1;">
+          <th scope="col" style="width: 10px;">#</th>
+          <th scope="col" style="width: 100px;">Semestre</th>
+          <th scope="col" style="width: 50px;">Fecha de inicio</th>
+          <th scope="col" style="width: 50px;">Fecha de finalización</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+      </tbody>
+    </table>
+    
+  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="postulateModal" tabindex="-1" aria-labelledby="postulateModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="postulateModalLabel">Formulario de postulación</h1>
+        <button type="button" id="btn-close-modal-project" data-bs-target="#detailModal" data-bs-toggle="modal" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <div style="display:flex;justify-content: center;align-items: center;">
+          <label style="font-size: 16px;">Semestre :&nbsp;</label><label id="ps-semester" style="font-size: 16px;font-weight: bold;">2022-II</label>
+          <div style="margin-right: 2%;margin-left:2%"></div>
+          <label style="font-size: 16px;">Modalidad :&nbsp;</label><label id="ps-modality" style="font-size: 16px;font-weight: bold;">ESTUDIANTE</label>
+          <div style="margin-right: 2%;margin-left:2%"></div>
+          <label style="font-size: 16px;">¿Es Financiado? :&nbsp;</label><label id="ps-financed" style="font-size: 16px;font-weight: bold;"></label>
+          <div style="margin-right: 2%;margin-left:2%"></div>
+          <label style="font-size: 16px;">Monto :&nbsp;</label><label id="ps-amount" style="font-size: 16px;font-weight: bold;"></label>
+        </div>
+
+      <br>
+
+      <div class="input-group">
+        <span class="input-group-text">Título del proyecto</span>
+        <input id="ps-title" style="font-size: 14px;color:black;font-weight:bold;text-transform: uppercase;" class="form-control">
+      </div>
+
+      <br>
+      <div class="input-group">
+        <span class="input-group-text">Resumen del proyecto</span>
+        <textarea class="form-control" style="height: 100px;" maxlength="300" id="ps-resume" aria-label="rs-project"></textarea>
+      </div>
+      <label style="font-size: 14px;">300 caracteres como máximo</label>
+      <p></p>
+
+      <div class="input-group mb-3">
+        <label class="input-group-text" style="font-weight: bold;">Facultad</label>
+        <select class="form-select" style="color:black;" id="inputGroupSelectFaculty">
+          <option selected disabled value="">Seleccione una opción</option>
+          <option value="ECOTURISMO">ECOTURISMO</option>
+          <option value="INGENIERÍA">INGENIERÍA</option>
+          <option value="EDUCACIÓN">EDUCACIÓN</option>
+        </select>
+      </div>
+  
+      <div class="input-group mb-3" id="groupDepartaments" style="display: none;">
+        <label class="input-group-text" for="inputGroupSelectCarrer" style="font-weight: bold;">Escuela profesional</label>
+        <select class="form-select" style="color:black;" id="inputGroupSelectCarrer">
+        </select>
+      </div>
+      <br>
+
+      <div id="optionsModalityStd">
+        <label style="font-size: 17px;font-weight:bold;color: rgb(71, 71, 71);">Lista de estudiantes</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <button onclick="searchStd()" id="btn-std-table" class="btn btn-outline-secondary btn-std" type="button">
+              <ion-icon style="color:#c5236f" size="large" name="search-circle-outline"></ion-icon></button>
+          </div>
+          <input type="tel" maxlength="8" id="codeStd" class="form-control" placeholder="Buscar código de estudiante..." aria-label="" aria-describedby="basic-addon1">
+          <button class="btn btn-success" id="addToTableSTD" onclick="addStd()" style="display: none;">Agregar</button>
+          <button class="btn btn-danger" onclick="cancelStd()" id="deleteQueryStd" style="display: none;">Cancelar</button>
+        </div>
+      </div>
+
+      <fieldset id="fieldsetSTD">
+      <table class="table table-hover" id="tbStd">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombres y apellidos</th>
+            <th scope="col">Código</th>
+            <th scope="col">DNI</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody id="tdbody-tch-std">
+        </tbody>
+      </table>
+    </fieldset>
+      <p></p>
+
+      <div id="optionsModalityTch">
+        <label style="font-size: 17px;font-weight:bold;color: rgb(71, 71, 71);">Lista de docentes</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <button onclick="searchTch()" id="btn-tch-table" class="btn btn-outline-secondary btn-std" type="button">
+              <ion-icon style="color:#c5236f" size="large" name="search-circle-outline"></ion-icon></button>
+          </div>
+          <input type="tel" maxlength="8" id="codeTch" class="form-control" placeholder="Buscar DNI de docente..." aria-label="" aria-describedby="basic-addon1">
+          <button class="btn btn-success" onclick="addTch()" id="addToTableTCH" style="display: none;">Agregar</button>
+          <button class="btn btn-danger" onclick="cancelTch()" id="deleteQueryTch" style="display: none;">Cancelar</button>
+        </div>
+      </div>
+
+      <fieldset id="fieldsetTCH">
+      <table class="table table-hover" id="tbTch">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombres y apellidos</th>
+            <th scope="col">Código</th>
+            <th scope="col">DNI</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody id="tdbody-tch-tch"></tbody>
+      </table>
+    </fieldset>
+
+      <br>
+      <center><label style="font-size: 18px;font-weight:bold;color: rgb(213, 0, 0);">*Subida de archivos</label></center>
+      <p></p>
+      <label style="font-size: 17px;font-weight:bold;color: rgb(71, 71, 71);">Carta de compromiso</label>
+      <div class="input-group mb-3">
+        <input type="file" class="form-control" id="letter-engagement">
+      </div>
+
+      <p></p>
+      <label style="font-size: 17px;font-weight:bold;color: rgb(71, 71, 71);">Proyecto</label>
+      <div class="input-group mb-3">
+        <input type="file" class="form-control" id="doc-project">
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <div id="labelProject" style="display: none;"><label style="font-weight:500;">Guandado datos , espere un momento... </label>
+          &nbsp;<label id="percentUpload"></label></div>
+        <div class="smallLoader" id="loaderProject" style="display: none;"></div>
+        <div id="btn-footer">
+          <button type="button" data-bs-target="#detailModal" data-bs-toggle="modal" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" onclick="createProject()" class="btn btn-primary">Postular</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Detail modal-->
+
+<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <img src="/intranet/images/bg-1.jpg" style="width:50px;height:50px;"> &nbsp;
+      <h5 class="modal-title" id="detail-title"></h5>
+      <div id="btn-postulate"></div>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+
+      <div class="input-group">
+        <span  style="background-color: #c5236f;color:#fff;" class="input-group-text">Fecha de inicio y finalizacion</span>
+        <input style="background-color: #f081b521;" type="text" class="form-control inputDate-bg1" id="startDate" disabled>
+        <input style="background-color: #f081b521;" type="text" class="form-control inputDate-bg1" id="endDate" disabled>
+      </div>
+
+      <br>
+      <div class="input-group">
+        <span  style="background-color: #ffc107;color:#fff;" class="input-group-text">Fecha de observación</span>
+        <input style="background-color: #fede7b22;" type="text" class="form-control inputDate-bg1" id="obs-startDate" disabled>
+        <input style="background-color: #fede7b22;" type="text" class="form-control inputDate-bg1" id="obs-endDate" disabled>
+      </div>
+
+      <br>
+      <div class="input-group">
+        <span  style="background-color: #008502;color:#fff;" class="input-group-text">Fecha de informe</span>
+        <input style="background-color: #abf0ac2a;" type="text" class="form-control inputDate-bg1" id="inf-startDate" disabled>
+        <input style="background-color: #abf0ac2a;" type="text" class="form-control inputDate-bg1" id="inf-endDate" disabled>
+      </div>
+      
+      <br><center>
+      <table class="links-announcements">
+        <tr>
+          <th class="pd-links" style="font-size: 16px;">BASES</th>
+          <th class="pd-links" style="font-size: 16px;">CRONOGRAMA</th>
+          <th class="pd-links" style="font-size: 16px;">REGLAMENTO</th>
+          <th class="pd-links" style="font-size: 16px;">FORMATO DE ARTÍCULO</th>
+        </tr>
+        <tr>
+          <td class="pd-links">
+            <ion-icon size="medium" style="color: #000;" name="cloud-download-outline">
+            </ion-icon>
+            <a id="link_base" target="_blank" download="bases">Link de descarga</a>
+          </td>
+          <td class="pd-links">
+            <ion-icon size="medium" style="color: #000;" name="cloud-download-outline">
+            </ion-icon>
+            <a id="link_timeline" target="_blank" download="cronograma">Link de descarga
+            </a>
+          </td>
+          <td class="pd-links"><ion-icon size="medium" style="color: #000;" name="cloud-download-outline">
+          </ion-icon>
+          <a id="link_rule" target="_blank" download="reglamento">Link de descarga
+          </a></td>
+          <td class="pd-links">
+            <ion-icon size="medium" style="color: #000;" name="cloud-download-outline">
+            </ion-icon>
+            <a id="link_article" target="_blank" download="formato_articulo">Link de descarga
+            </a>
+          </td>
+        </tr>      
+      </table></center>    
+
+    </div>
+
+    <div style="width: 100%;"><center>
+      </center>
+    </div>
+    
+    <div class="modal-footer" id="footerDetail">  
+    </div>
+  </div>
+</div>
+</div>
+<!--Modal end-->
+
+
+
+
+
+<center><div class="loader" style="display:none" id="loader"></div></center>
+
+<div id="createDataTable">
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+</div>
+
+ <!-- ===== IONICONS ===== -->
+ <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+ <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="../../js/dashboardConfig/config.js"></script>
+<script src="../../js/utils/customJsBootstrapAN.js"></script>
+<script src="../../js/tch/annoucements.js"></script>
+
+</body>

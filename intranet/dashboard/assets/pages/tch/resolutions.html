@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Convocatorias</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/announcement.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="../../js/utils/datetime.js"></script>
+    
+    <script src="../../../../js/app.js"></script>
+    <script src="../../../../js/auth.js"></script>
+    <script src="../../../../js/firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"  
+     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+     
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" 
+     integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+     <!-- range date-->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
+
+    <!------->
+
+<!--datatable!-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+
+     <style>
+
+      .swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+        background: rgba(250, 250, 250, 0.24);
+      }
+      
+      .swal2-popup {
+        background: #c5236f;
+        color: #f1f1f1;
+      }
+      
+      .swal2-styled.swal2-confirm {
+          background-color: #ffffff;
+          color: #000;
+      }
+      
+      .swal2-icon.swal2-warning {
+          border-color: #fff7f0;
+          color: #ffffff;
+      }
+      
+      .swal2-icon.swal2-error {
+          border-color: #fff7f0;
+          color: #ffffff;
+      }
+      
+      .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+          background-color: #f0e5e5;
+      }
+      
+      .form-control:disabled, .form-control[readonly] {
+          background-color: #fafafa;
+          opacity: 1;
+      }
+
+      .modal-content {
+        background-color: #f4f4f4;
+        border-color: #c5236f9f;
+        border-width: 1px;
+      }
+
+      ion-icon {
+        color: white;
+     }
+     
+    .accordion-button:not(.collapsed) {
+       color: #FFF  !important;
+       background-color: #c5236f !important;
+      }
+
+.accordion-button:link, .accordion-button:visited, .accordion-button:hover, .accordion-button:active  {
+    background-color: #c5236f !important;
+    color:#FFF !important;
+    text-decoration: none !important;
+    border: hidden !important;
+    border-color: #c5236f !important;
+    box-shadow: 0px !important;
+}
+
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #c5236f !important;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem #c5236f !important;
+}
+
+.progress {
+    --bs-progress-bg: #c5236f;
+  }
+
+  hr.solid {
+  border-top: 3px solid #bbb;
+}
+      
+      </style>
+
+</head>
+<body>
+
+<div style="margin-top: 5px;">
+
+<h4><ion-icon style="color: rgb(83, 83, 83);" name="document-text-outline"></ion-icon>&nbsp;Mis Resoluciones&nbsp;
+</h4>
+</div>
+
+<div class="table-responsive">
+ 
+    <table class="table table-hover" id="tb-resolution">
+        <thead>
+          <tr style="background-color: #c5236f;color: #f1f1f1;">
+            <th scope="col" style="width: 10px;"><center>#</center></th>
+            <th scope="col" style="width: 100px;"><center>N° de resolución</center></th>
+            <th scope="col" style="width: 50px;"><center>F. de resolución</center></th>
+            <th scope="col" style="width: 50px;"><center>Asesor</center></th>
+            <th scope="col" style="width: 50px;"><center>Modalidad</center></th>
+            <th scope="col" style="width: 50px;"><center>Departamento</center></th>
+            <th scope="col" style="width: 50px;"><center>Tipo de resolución</center></th>
+            <th scope="col" style="width: 50px;"></th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+      </table>
+      
+    </div>
+
+
+
+<!--END MODAL-->
+
+<center><div class="loader" style="display:none;" id="loader"></div></center>
+
+<div id="createDataTable">
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+</div>
+
+ <!-- ===== IONICONS ===== -->
+ <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+ <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="../../js/dashboardConfig/config.js"></script>
+<script src="../../js/utils/customBootstrapRS.js"></script>
+<script src="/intranet/dashboard/assets/js/tch/resolutions.js"></script>
+<script src="/intranet/dashboard/assets/js/su/apiReniec.js"></script>
+
+</body>
+</html>

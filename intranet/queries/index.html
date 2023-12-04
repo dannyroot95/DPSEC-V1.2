@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Constancias y resoluciones - DPSEC</title>
+    <script src="/intranet/js/app.js"></script>
+    <script src="/intranet/js/auth.js"></script>
+    <script src="/intranet/js/firestore.js"></script>
+    <script src="/intranet/dashboard/assets/js/utils/datetime.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link rel='stylesheet' type='text/css' media='screen' href='/intranet/css/loader.css'>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- CSS only -->
+    
+</head>
+<body>
+    
+
+  <br><p></p>
+    <center><h1>Consulta de resoluciones y constancias</h2></center>
+
+    <div class="radio-with-Icon" id="types" style="display: flex;justify-content:center;align-items:center;margin-top: -20px;">
+        <p class="radioOption-Item" id="tch" onclick="setDNI()">
+          <input type="radio" name="BannerTypes" id="BannerType1" value="true" class="ng-valid ng-dirty ng-touched ng-empty" aria-invalid="false" style="">
+          <label for="BannerType1" style="font-weight: bold;">
+            <img src="/intranet/dashboard/assets/img/teacher-icon.png" width="80px">
+            DOCENTE
+          </label>
+        </p>
+      
+        <p class="radioOption-Item" onclick="setCode()" >
+          <input type="radio" name="BannerTypes" id="BannerType2" value="false" class="ng-valid ng-dirty ng-touched ng-empty" aria-invalid="false" style="">
+          <label for="BannerType2" style="font-weight: bold;">
+            <img src="/intranet/dashboard/assets/img/student-icon.png" width="80px">
+            ESTUDIANTE
+          </label>
+        </p>
+    
+      </div>
+
+      <br><br>
+      <center>
+      <div id="content" style="width: 40%;">
+        
+      </div>
+      <div class="loadersmall" id="loader"></div>
+      </center>
+
+      <div class="modal fade" id="SearchModalByResolution" tabindex="-1" role="dialog" aria-labelledby="SearchModalByResolution" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Datos Estudiante</h5>
+            <button type="button" id="modal-icon-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+        
+            <div class="input-group">
+              <span class="input-group-text">Apellido Paterno</span>
+              <input type="text" class="form-control" id="lastNameFather" >
+            </div>
+        
+            <br>
+            <div class="input-group">
+              <span class="input-group-text">Apellido Materno</span>
+              <input type="text" class="form-control" id="lastNameMother">
+            </div>
+            <br>
+            <div class="input-group">
+              <span class="input-group-text">Nombre</span>
+              <input type="text" class="form-control" id="inputName" ">
+            </div>
+        
+          <div class="modal-footer" style="display: flex;justify-content: space-between;">
+        
+            <div>
+              <span id="passstrength"></span>
+            </div>
+            
+            <div style="display: flex;">
+              <button type="button" class="btn btn-primary" id="SearchResolution" style="background-color: #c5236f;border-color: #c5236f;" onclick="fnSearchResolution()">Buscar</button>  
+            </div>
+            
+        
+          </div>
+        </div>
+        </div>
+        </div>
+
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+      <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+      <script src="/intranet/dashboard/assets/js/dashboardConfig/config.js"></script>
+      <script src='/intranet/queries/main.js'></script>
+</body>
+</html>

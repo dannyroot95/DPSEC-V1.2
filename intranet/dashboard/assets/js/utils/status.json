@@ -1,0 +1,27 @@
+[
+    {
+        "status": "0",
+        "name_status": "Postulado"
+    },
+
+    {
+        "status": "1",
+        "name_status": "Aprobado"
+    },
+
+    {
+        "status": "2",
+        "name_status": "Ejecutado"
+    },
+
+    {
+        "status": "3",
+        "name_status": "Finalizado"
+    },
+
+    {
+        "status": "4",
+        "name_status": "Observado"
+    }
+]
+

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Convocatorias</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="../css/announcement.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="../../js/utils/datetime.js"></script>
+    
+    <script src="../../../../js/app.js"></script>
+    <script src="../../../../js/auth.js"></script>
+    <script src="../../../../js/firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"  
+     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+     
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" 
+     integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+     <!-- range date-->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
+
+    <!------->
+
+<!--datatable!-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+
+     <style>
+
+      .swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+        background: rgba(250, 250, 250, 0.24);
+      }
+      
+      .swal2-popup {
+        background: #c5236f;
+        color: #f1f1f1;
+      }
+      
+      .swal2-styled.swal2-confirm {
+          background-color: #ffffff;
+          color: #000;
+      }
+      
+      .swal2-icon.swal2-warning {
+          border-color: #fff7f0;
+          color: #ffffff;
+      }
+      
+      .swal2-icon.swal2-error {
+          border-color: #fff7f0;
+          color: #ffffff;
+      }
+      
+      .swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+          background-color: #f0e5e5;
+      }
+      
+      .form-control:disabled, .form-control[readonly] {
+          background-color: #fafafa;
+          opacity: 1;
+      }
+
+      .modal-content {
+        background-color: #f4f4f4;
+        border-color: #c5236f9f;
+        border-width: 1px;
+      }
+
+      ion-icon {
+        color: white;
+     }
+     
+    .accordion-button:not(.collapsed) {
+       color: #FFF  !important;
+       background-color: #c5236f !important;
+      }
+
+.accordion-button:link, .accordion-button:visited, .accordion-button:hover, .accordion-button:active  {
+    background-color: #c5236f !important;
+    color:#FFF !important;
+    text-decoration: none !important;
+    border: hidden !important;
+    border-color: #c5236f !important;
+    box-shadow: 0px !important;
+}
+
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #c5236f !important;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem #c5236f !important;
+}
+
+.progress {
+    --bs-progress-bg: #c5236f;
+  }
+
+  hr.solid {
+  border-top: 3px solid #bbb;
+}
+      
+      </style>
+
+</head>
+<body>
+
+<div style="margin-top: 5px;">
+
+<h4><ion-icon style="color: rgb(83, 83, 83);" name="document-text-outline"></ion-icon>&nbsp;Resoluciones&nbsp;
+  <button style="font-size: 16px;padding: 8px;" class="btn-round" onclick="modal1()">
+  + Crear resolución
+  </button> 
+ 
+</h4>
+</div>
+
+<div class="table-responsive">
+ 
+    <table class="table table-hover" id="tb-resolution">
+        <thead>
+          <tr style="background-color: #c5236f;color: #f1f1f1;">
+            <th scope="col" style="width: 10px;"><center>#</center></th>
+            <th scope="col" style="width: 100px;"><center>N° de resolución</center></th>
+            <th scope="col" style="width: 50px;"><center>F. de resolución</center></th>
+            <th scope="col" style="width: 50px;"><center>Asesor</center></th>
+            <th scope="col" style="width: 50px;"><center>Modalidad</center></th>
+            <th scope="col" style="width: 50px;"><center>Departamento</center></th>
+            <th scope="col" style="width: 50px;"><center>Tipo de resolución</center></th>
+            <th scope="col" style="width: 50px;"></th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+      </table>
+      
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="createConstancyModal" tabindex="-1" role="dialog"  aria-labelledby="createConstancyModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabelTitle">Crear nueva resolución</h5>
+        <button type="button" id="modal-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      
+      <div class="modal-body">
+
+        <label style="font-size: 17px;font-weight:bold;color: rgb(71, 71, 71);">Tipo de resolución</label>
+        <div class="input-group" style="margin-top: 5px;">
+          <select class="form-select" style="color:black;" id="inputGroupSelectTypeResolution">
+            <option selected disabled value="">Seleccione una opccion...</option>
+            <option value="APROBACION DE PROYECTO PARA EJECUCIÓN">APROBACION DE PROYECTO PARA EJECUCIÓN</option>
+            <option value="APROBACION DE INFORME FINAL">APROBACION DE INFORME FINAL</option>
+          </select>
+        </div>
+     <br>
+     
+     <!---->
+
+     <div id="div-rs-final" style="display: none;">
+
+        <div class="input-group">
+            <span class="input-group-text">N° de resolucion</span>
+            <input type="tel" style="color: #000;font-size: 18px;font-weight: bold;" maxlength="10" id="num-resolution" class="form-control">
+          </div>
+       <br>
+       
+       <div class="input-group">
+        <span class="input-group-text">Fecha de resolución</span>
+        <input type="date" id="date-resolution" style="font-weight:bold;" class="form-control"/>
+       </div>
+
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect" style="font-weight: bold;">Modalidad</label>
+            <select class="form-select" style="color:black;" id="inputGroupSelect">
+              <option disabled value="">Seleccione una opccion...</option>
+              <option value="0">Docente</option>
+              <option value="1">Estudiante</option>
+              <option value="2">Voluntariado</option>
+              <option value="3">Actividad</option>
+            </select>
+  
+                   
+            <input type="text" class="form-control" style="color: black;font-weight:bold;" placeholder="¿ES FINANCIADO?" disabled>
+            <div class="input-group-text">
+              <input id="chk-financed" onclick="is_financed()" class="form-check-input mt-0" style="background-color: #c5236f;border-color: #c5236f;" type="checkbox" value="" aria-label="Checkbox for following text input">
+            </div>
+
+            <div class="input-group" id="amount" style="display: none;">
+              <span class="input-group-text" style="color: rgb(0, 120, 2);font-weight:bold;">Monto S/</span>
+              <input type="tel" maxlength="4" id="amountvalue" style="font-weight:bold;" class="form-control"/>
+             </div>
+          </div>
+          <p></p>
+
+        <div class="input-group">
+          <span class="input-group-text">DNI Asesor</span>
+          <input type="text" maxlength="8" id="dni" class="form-control">
+          <span class="input-group-text">Nombre</span>
+          <input type="text"  id="fullname" class="form-control" style="background-color: #c5236f1b;">
+        </div>
+        <p></p>
+
+        <div class="input-group">
+          <span class="input-group-text">Título del proyecto</span>
+          <input id="title-project" style="font-size: 14px;color:black;font-weight:bold;text-transform: uppercase;" class="form-control">
+         </div>
+         <p></p>
+
+         <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelectCarrer" style="font-weight: bold;">Facultad</label>
+          <select class="form-select" style="color:black;" id="inputGroupSelectFaculty">
+            <option selected disabled value="">Seleccione una opción</option>
+            <option value="ECOTURISMO">ECOTURISMO</option>
+            <option value="INGENIERÍA">INGENIERÍA</option>
+            <option value="EDUCACIÓN">EDUCACIÓN</option>
+          </select>
+        </div>
+        <p></p>
+
+         <div class="input-group mb-3" id="groupDepartaments" style="display: none;">
+          <label class="input-group-text" for="inputGroupSelectCarrer" style="font-weight: bold;">Departamento/Programa</label>
+          <select class="form-select" style="color:black;" id="inputGroupSelectCarrer">
+            <option selected disabled value="">Seleccione una opción</option>
+            <option value="1">DEPARTAMENTO ACADÉMICO DE DERECHO Y CIENCIAS POLÍTICAS</option>
+            <option value="0">PROGRAMA ACADÉMICO DE DERECHO Y CIENCIAS POLÍTICAS</option>
+            <option value="2">DEPARTAMENTO ACADÉMICO DE CONTABILIDAD Y ADMINISTRACIÓN</option>
+            <option value="13">DEPARTAMENTO ACADÉMICO DE EDUCACIÓN Y HUMANIDADES</option>
+            <option value="3">PROGRAMA ACADÉMICO DE INICIAL Y ESPECIALIDAD</option>
+            <option value="4">PROGRAMA ACADÉMICO DE PRIMARIA E INFORMÁTICA</option>
+            <option value="5">PROGRAMA ACADÉMICO DE MATEMÁTICA Y COMPUTACIÓN</option>
+            <option value="6">DEPARTAMENTO ACADÉMICO DE ENFERMERÍA</option>
+            <option value="6">PROGRAMA ACADÉMICO DE ENFERMERÍA</option>
+            <option value="7">DEPARTAMENTO ACADÉMICO DE ECOTURISMO</option>
+            <option value="8">DEPARTAMENTO ACADÉMICO DE INGENIERÍA FORESTAL Y MEDIO AMBIENTE</option>
+            <option value="9">DEPARTAMENTO ACADÉMICO DE INGENIERÍA DE SISTEMAS E INFORMÁTICA</option>
+            <option value="10">DEPARTAMENTO ACADÉMICO DE INGENIERÍA AGROINDUSTRIAL</option>
+            <option value="11">DEPARTAMENTO ACADÉMICO DE MEDICINA VETERINARIA - ZOOTECNIA</option>
+            <option value="12">DEPARTAMENTO ACADÉMICO DE CIENCIAS BÁSICAS</option>
+          </select>
+        </div>
+
+        <div id="optionsModalityStd">
+          <label style="font-size: 17px;font-weight:bold;color: rgb(71, 71, 71);">Lista de estudiantes (Opcional)</label>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend" style="display:flex">
+              <button onclick="modal2()" id="btn-searchName" class="btn btn-outline-secondary btn-std" type="button">
+                <ion-icon style="color:#c5236f" size="large" name="person-add-outline"></ion-icon></button>
+              <button onclick="searchStd()" id="btn-std-table" class="btn btn-outline-secondary btn-std" type="button">
+                <ion-icon style="color:#c5236f" size="large" name="search-circle-outline"></ion-icon></button>
+            </div>
+            <input type="tel" maxlength="8" id="codeStd" class="form-control" placeholder="Buscar código de estudiante..." aria-label="" aria-describedby="basic-addon1">
+            <button class="btn btn-success" id="addToTableSTD" onclick="addStd()" style="display: none;">Agregar</button>
+            <button class="btn btn-danger" onclick="cancelStd()" id="deleteQueryStd" style="display: none;">Cancelar</button>
+          </div>
+        </div>
+        
+        <fieldset id="fieldsetSTD">
+          <table class="table table-hover" id="tbStd">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombres y apellidos</th>
+                <th scope="col">Código</th>
+                <th scope="col">DNI</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody id="tdbody-tch-std">
+            </tbody>
+          </table>
+        </fieldset>
+        <br>
+
+        <div id="optionsModalityTch">
+
+ 	<div class="input-group" style="margin-bottom:10px;">
+ 	   <div class="input-group-text">
+              <input id="chk-active-tch" checked class="form-check-input mt-0" style="background-color: #c5236f;border-color: #c5236f;" type="checkbox" value="">
+            </div>
+          &nbsp&nbsp
+ 	  <label style="font-size: 17px;font-weight:bold;color: rgb(71, 71, 71);">Lista de docentes (Opcional)</label>
+	</div>
+          <div class="input-group mb-3" id="div-in-tch">
+            <div class="input-group-prepend">
+              <button onclick="searchTch()" id="btn-tch-table" class="btn btn-outline-secondary btn-std" type="button">
+                <ion-icon style="color:#c5236f" size="large" name="search-circle-outline"></ion-icon></button>
+            </div>
+            <input type="tel" maxlength="8" id="codeTch" class="form-control" placeholder="Buscar dni de docente..." aria-label="" aria-describedby="basic-addon1">
+            <button class="btn btn-success" onclick="addTch()" id="addToTableTCH" style="display: none;">Agregar</button>
+            <button class="btn btn-danger" onclick="cancelTch()" id="deleteQueryTch" style="display: none;">Cancelar</button>
+          </div>
+        </div>
+  
+        <fieldset id="fieldsetTCH">
+        <table class="table table-hover" id="tbTch">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombres y apellidos</th>
+              <th scope="col">DNI</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody id="tdbody-tch-tch"></tbody>
+        </table>
+      </fieldset>
+
+      <div id="contentFile">
+      </div>
+
+        <label style="font-weight: bold;font-size:18px;color: black;">*Subir Resolución</label>
+        <div class="input-group mb-3">
+          <input type="file" class="form-control" id="file-resolution">
+        </div>
+
+        <p></p>
+
+        <div id="div-ex">
+        <label style="font-weight: bold;font-size:18px;color: black;">*Subir Expediente</label>
+        <label style="color: #fc0000;font-weight: bold;">(OPCIONAL)</label>
+        <div class="input-group mb-3">
+          <input type="file" class="form-control" id="file-expediente">
+        </div>
+      </div>
+  
+      </div>
+      <div class="modal-footer">
+        <div id="isUpload" style="display: none;">
+            <label style="font-weight: bold;color:#000">Guardando datos...</label> &nbsp; <div class="smallLoader"></div>
+        </div>
+        <div id="div-buttons">
+            <button type="button" class="btn btn-primary" id="btn-save" style="background-color: #c5236f;border-color: #c5236f;" onclick="createResolution()">Crear resolución</button>  
+        </div>
+       </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- modal search student -->
+<div class="modal fade" id="openSearchStudents" tabindex="-1" role="dialog" aria-labelledby="openSearchStudents" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5 class="modal-title">Agregar estudiante</h5>
+      <button type="button" id="modal-icon-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="clearMod2()"></button>
+    </div>
+    <div class="modal-body">
+
+      
+      <br>
+      <div class="input-group">
+        <span class="input-group-text">Apellido Paterno</span>
+        <input type="text" style="text-transform: uppercase;" class="form-control" id="SElastnameP" >
+      </div>
+
+      <br>
+      <div class="input-group">
+        <span class="input-group-text">Apellido Materno</span>
+        <input type="text" style="text-transform: uppercase;" id="SElastnameM" class="form-control">
+      </div>
+
+      <br>
+      <div class="input-group">
+        <span class="input-group-text">Nombre completo</span>
+        <input type="text" style="text-transform: uppercase;" class="form-control" id="SEfullname">
+      </div>
+
+      <div class="modal-footer">
+
+        <div id="div-buttons">
+            <button type="button" class="btn btn-primary" onclick="addStdMod2()" style="background-color: #c5236f;border-color: #c5236f;" >Agregar a la tabla</button>  
+        </div>
+       </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+
+<!--END MODAL-->
+
+<center><div class="loader" style="display:none;" id="loader"></div></center>
+
+<div id="createDataTable">
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+</div>
+
+ <!-- ===== IONICONS ===== -->
+ <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+ <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script src="../../js/dashboardConfig/config.js"></script>
+<script src="../../js/utils/customBootstrapRS.js"></script>
+<script src="/intranet/dashboard/assets/js/su/resolutions.js"></script>
+<script src="/intranet/dashboard/assets/js/su/apiReniec.js"></script>
+
+<script>
+  function modal1(){
+    $('#createConstancyModal').modal('show')
+  }
+  function modal2(){
+    $('#openSearchStudents').modal('show')
+  }
+    $(document).ready(function(){
+  $("#datepicker").datepicker({
+     format: "yyyy",
+     viewMode: "years", 
+     minViewMode: "years",
+     autoclose:true
+  });   
+})
+</script>
+
+</body>
+</html>
